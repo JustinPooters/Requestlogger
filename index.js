@@ -23,6 +23,7 @@ app.all('*', (req, res) => {
     } else {
         if (!fs.existsSync("./logs")){
             fs.mkdirSync("./logs");
+            console.log("directory created")
         }
         
         fs.writeFile(`./logs/${id}.json`, JSON.stringify(logData, null, 2), (err) => {
@@ -36,6 +37,7 @@ app.all('*', (req, res) => {
                     "url": `${domain}/logs/${id}.json`,
                     "message": "Request logged successfully"
                 });
+                console.log("request processed")
             }
         });
     }
