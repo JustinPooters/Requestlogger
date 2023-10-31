@@ -21,6 +21,10 @@ app.all('*', (req, res) => {
     };
     if(req.url.startsWith('/logs')) {
     } else {
+        if (!fs.existsSync("./logs")){
+            fs.mkdirSync("./logs");
+        }
+        
         fs.writeFile(`./logs/${id}.json`, JSON.stringify(logData, null, 2), (err) => {
             if (err) {
                 console.error(err);
