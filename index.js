@@ -4,13 +4,17 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
+// Variables
+let domain = `https://reqlog.someserver.nl`;
+let port = 80;
+
 app.use(express.json());
 app.use('/logs', express.static('logs'));
 
 app.all('*', (req, res) => {
     const id = uuidv4();
     const logData = {
-        url: req.baseUrl + req.url,
+        url: domain + req.url,
         headers: req.headers,
         body: req.body,
         query: req.query,
@@ -25,7 +29,7 @@ app.all('*', (req, res) => {
                 res.json({
                     "status": "success",
                     "id": id,
-                    "url": `http://localhost:3000/logs/${id}.json`,
+                    "url": `${domain}/logs/${id}.json`,
                     "message": "Request logged successfully"
                 });
             }
@@ -33,4 +37,4 @@ app.all('*', (req, res) => {
     }
 });
 
-app.listen(3000, () => console.log('Server is running on port 3000'));
+app.listen(port, () => console.log(`Server is running on port ${port}`));
