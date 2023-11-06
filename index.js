@@ -5,14 +5,6 @@ var serveIndex = require('serve-index');
 
 const app = express();
 
-let date_time = new Date();
-let date = ("0" + date_time.getDate()).slice(-2);
-let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-let year = date_time.getFullYear();
-let hours = ("0" + (date_time.getHours())).slice(-2);
-let minutes = ("0" + (date_time.getMinutes())).slice(-2);
-let seconds = ("0" + (date_time.getSeconds())).slice(-2);
-
 // Variables
 let domain = `https://reqlog.someserver.nl`;
 let port = 80;
@@ -22,8 +14,16 @@ app.use('/logs', express.static('logs'));
 app.use('/logs', serveIndex (__dirname + '/logs'));
 
 app.all('*', (req, res) => {
+    let date_time = new Date();
+    // let date = ("0" + date_time.getDate()).slice(-2);
+    // let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
+    // let year = date_time.getFullYear();
+    // let hours = ("0" + (date_time.getHours())).slice(-2);
+    // let minutes = ("0" + (date_time.getMinutes())).slice(-2);
+    // let seconds = ("0" + (date_time.getSeconds())).slice(-2);
+    let timestammp = `${("0" + date_time.getDate()).slice(-2)}-${("0" + (date_time.getMonth() + 1)).slice(-2)}-${date_time.getFullYear()} ${("0" + (date_time.getHours())).slice(-2)}:${("0" + (date_time.getMinutes())).slice(-2)}:${("0" + (date_time.getSeconds())).slice(-2)}`
     const iid = uuidv4();
-    const id = `${date}-${month}-${year}-${hours}:${minutes}:${seconds}-${iid}`;
+    const id = `${timestammp}-${iid}`;
     const logData = {
         url: domain + req.url,
         headers: req.headers,
